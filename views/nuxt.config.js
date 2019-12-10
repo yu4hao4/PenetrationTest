@@ -29,7 +29,7 @@ module.exports = {
   ** Plugins to load before mounting the App
   */
   plugins: [
-    '@/plugins/element-ui'
+    '@/plugins/element-ui',
   ],
   /*
   ** Nuxt.js dev-modules
@@ -48,6 +48,24 @@ module.exports = {
   ** See https://axios.nuxtjs.org/options
   */
   axios: {
+    //开启代理
+    proxy:true,
+    //请求加上前缀 /api
+    prefix:'/api',
+    //跨域访问时是否需要凭证
+    credentials:false
+  },
+  proxy:{
+    '/api':{
+      target:'http://localhost:8081',
+      pathRewrite:{
+        //将 /api 替换为 /
+        '^/api':'/',
+        //是否跨域
+        changeOrigin:true
+      }
+
+    }
   },
   /*
   ** Build configuration
@@ -58,6 +76,12 @@ module.exports = {
     ** You can extend webpack config here
     */
     extend (config, ctx) {
-    }
+    },
+    //防止重复打包
+    vendor:['axios']
+  },
+  server: {
+    port: 8080, // default: 3000
+    host: 'localhost' // default: localhost
   }
 }
