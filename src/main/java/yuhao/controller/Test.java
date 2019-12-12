@@ -1,7 +1,14 @@
 package yuhao.controller;
 
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.cache.CacheProperties;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.web.bind.annotation.*;
+import yuhao.entity.RedisHashObject;
+import yuhao.entity.RespBean;
+import yuhao.utils.RedisUtil;
+
+import javax.annotation.Resource;
 
 /**
  * @author 喻浩
@@ -10,8 +17,23 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class Test {
     
-    @RequestMapping("/test")
-    public String test(){
-        return "111";
+//    @RequestMapping("/test")
+//    public String test(){
+//        return "111";
+//    }
+
+    @Autowired
+    RedisUtil redisUtil;
+    
+    @PostMapping("/set")
+    public RespBean set(@RequestBody RedisHashObject hashObject){
+        System.out.println(hashObject);
+        redisUtil.putHashData(hashObject);
+        return RespBean.ok("ok");
+    }
+    
+    @PostMapping("/get")
+    public RespBean get(@RequestBody RedisHashObject redisHashObject){
+        return RespBean.ok("ok").setObj(redisUtil.getValueForHashAndKey(redisHashObject));
     }
 }
