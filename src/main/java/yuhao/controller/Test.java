@@ -1,14 +1,10 @@
 package yuhao.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.cache.CacheProperties;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.*;
 import yuhao.entity.RedisHashObject;
 import yuhao.entity.RespBean;
 import yuhao.utils.RedisUtil;
-
-import javax.annotation.Resource;
 
 /**
  * @author 喻浩
